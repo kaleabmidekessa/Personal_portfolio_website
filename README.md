@@ -21,7 +21,7 @@ python manage.py runserver
 Then open http://127.0.0.1:8000 in your browser.
 
 ## Contributing
-Create a branch, make your changes, and open a pull request.
+Anybody wanting to contribute to the AI Job searching is welcomed
 
 ## Authors
-- Your name
+- Kaleab Midekessa

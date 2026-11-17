@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'resume/css/style.css' %}">
+
+    <meta charset="UTF-8">
+    <title>{{ abouts.name|default:"Portfolio" }} - Data Check</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Left Sticky Sidebar -->
+        <header class="sidebar">
+            <div>
+                <h1>{{ abouts.name }}</h1>
+                <h2>{{ abouts.headline }}</h2>
+                <p class="tagline">I bridge the gap between complex electromechanical systems and real-world business scalability. With a degree from Addis Ababa Science and Technology University and 5 years of experience in the high-stakes automotive brokerage market, I have mastered the art of technical negotiation and systems optimization.
+
+Recently, I have integrated AI into my workflow—earning a Google certification in Prompt Design for Vertex AI. I am now looking to bring this unique trifecta of Engineering, AI, and Business Operations to an innovative firm into an abroad countries.</p>
+
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-actions">
+                {% if abouts.resume_attached %}
+                    <a href="{{ abouts.resume_attached.url }}" target="_blank" class="btn-resume">View Full Resume</a>
+                {% endif %}
+                {% if abouts.social_link %}
+                    <a href="{{ abouts.social_link }}" target="_blank" class="social-link">GitHub / Social ↗</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- Right Scrollable Content -->
+        <main class="content">
+            <!-- 1. About Section -->
+            <section id="about" class="about-text">
+                <h2 class="section-heading">About</h2>
+                <p>{{ abouts.bio }}</p>
+            </section>
+
+            <!-- 2. Experience Section -->
+            <section id="experience">
+                <h2 class="section-heading">Experience</h2>
+                {% for exp in experiences %}
+                    <div class="card exp-grid">
+                        <div class="exp-date">
+                            {{ exp.start_date|date:"M Y" }} — {{ exp.end_date|date:"M Y"|default:"Present" }}
+                        </div>
+                        <div>
+                            <h3 class="card-title">{{ exp.role }} · {{ exp.company_name }}</h3>
+                            <p class="card-desc">{{ exp.achievements }}</p>
+                            <ul class="skill-tags">
+                                {% for s in exp.skill.all %}
+                                    <li class="skill-pill">{{ s.skill_name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No experience entries added yet.</p>
+                {% endfor %}
+            </section>
+
+            <!-- 3. Projects Section -->
+            <section id="projects">
+                <h2 class="section-heading">Projects</h2>
+                {% for proj in projects %}
+                    <div class="card">
+                        <h3 class="card-title">
+                            {{ proj.title }} {% if proj.featured_flags %}★{% endif %}
+                        </h3>
+                        <p class="card-desc">{{ proj.description }}</p>
+                        <div class="project-links">
+                            {% if proj.github_repo %}
+                                <a href="{{ proj.github_repo }}" target="_blank">GitHub Repo ↗</a>
+                            {% endif %}
+                            {% if proj.live_demo %}
+                                <a href="{{ proj.live_demo }}" target="_blank">Live Demo ↗</a>
+                            {% endif %}
+                        </div>
+                        <ul class="skill-tags">
+                            {% for s in proj.skill.all %}
+                                <li class="skill-pill">{{ s.skill_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% empty %}
+                    <p>No projects added yet.</p>
+                {% endfor %}
+            </section>
+
+            <!-- 4. Skills & Technologies Section -->
+            <section id="skills">
+                <h2 class="section-heading">Skills & Technologies</h2>
+                <ul class="skill-tags">
+                    {% for item in skil %}
+                        <li class="skill-pill">{{ item.skill_name }}</li>
+                    {% empty %}
+                        <li>No skills added yet.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </main>
+    </div>
+</body>
+
+
+</html>
